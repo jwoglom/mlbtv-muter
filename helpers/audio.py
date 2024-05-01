@@ -1,5 +1,6 @@
 import subprocess
 import logging
+import time
 
 from .applescript import run_applescript
 
@@ -44,7 +45,8 @@ def switchaudio_mute(device, muting):
         if device.strip() != current_device.strip():
             def mute_device(d):
                 run_switchaudio('-s', d)
-                return run_switchaudio('-m', muting)
+                time.sleep(0.1)
+                return run_switchaudio('-s', d, '-m', muting)
             if ',' in device:
                 ok = True
                 for d in device.split(','):
