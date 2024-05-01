@@ -35,7 +35,7 @@ def is_muted(method=None):
         elif 'output muted:true' in out:
             return True
         elif 'output muted:missing' in out and _fallback_mute_state is not None:
-            logger.warning('no mute state present in volume settings, falling back on known prior state')
+            logger.debug('no mute state present in volume settings, falling back on known prior state')
             return _fallback_mute_state
 
 def switchaudio_mute(device, muting):

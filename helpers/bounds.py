@@ -25,6 +25,9 @@ def get_window_bounds(app_name, title_keyword):
             return (0, bounds[1], bounds[2] + bounds[0], bounds[3])
         if bounds[1] < 0: # above screen, remove height
             return (bounds[0], 0, bounds[2], bounds[3] + bounds[1])
+        if bounds[2] < 0 or bounds[3] < 0:
+            logger.warn(f"invalid {bounds=}")
+            return None
         return bounds
 
 

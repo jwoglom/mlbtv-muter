@@ -20,7 +20,14 @@ def window(app_name, title_keyword, ensure_front=True):
     bounds = get_window_bounds(app_name, title_keyword)
     logger.debug(f'{bounds=}')
     if bounds:
-        return boundingbox(bounds)
+        try:
+            return boundingbox(bounds)
+        except Exception as e:
+            logger.error(f"boundingbox capture: {e=}")
+    try:
+        return fullscreen()
+    except Exception as e:
+        logger.error(f"fullscreen capture: {e=}")
 
 def save_to_temp(img):
     if not img:
