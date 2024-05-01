@@ -1,8 +1,11 @@
 import PIL
 import PIL.ImageGrab
 import tempfile
+import logging
 
 from .bounds import get_window_bounds, bring_to_front
+
+logger = logging.getLogger(__name__)
 
 def fullscreen():
     return PIL.ImageGrab.grab()
@@ -15,6 +18,7 @@ def window(app_name, title_keyword, ensure_front=True):
         if not bring_to_front(app_name, title_keyword):
             return
     bounds = get_window_bounds(app_name, title_keyword)
+    logger.debug(f'{bounds=}')
     if bounds:
         return boundingbox(bounds)
 
