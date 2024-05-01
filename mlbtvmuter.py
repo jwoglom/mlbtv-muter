@@ -39,7 +39,7 @@ unmuted_at = None
 
 def should_mute(args):
     global muted_at
-    if is_muted() in (False, None):
+    if is_muted() == False:
         logger.info('MUTING AUDIO')
         mute(args.audio_method, args.audio_device)
         muted_at = time.time()
@@ -48,7 +48,7 @@ def should_mute(args):
 
 def should_unmute(args):
     global unmuted_at
-    if is_muted() in (True, None):
+    if is_muted() == True:
         logger.info('UNMUTING AUDIO')
         unmute(args.audio_method, args.audio_device)
         unmuted_at = time.time()

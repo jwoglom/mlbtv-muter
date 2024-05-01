@@ -5,25 +5,38 @@ from .applescript import run_applescript
 
 logger = logging.getLogger(__name__)
 
+_fallback_mute_state = None
+
 def mute(method=None, device=None):
+    global _fallback_mute_state
+    _fallback_mute_state = True
+
     if method == 'applescript' or method is None:
         return run_applescript('set volume with output muted')
     elif method == 'switchaudio':
         return switchaudio_mute(device, 'mute')
 
 def unmute(method=None, device=None):
+    global _fallback_mute_state
+    _fallback_mute_state = False
+
     if method == 'applescript' or method is None:
         return run_applescript('set volume without output muted')
     elif method == 'switchaudio':
         return switchaudio_mute(device, 'unmute')
 
 def is_muted(method=None):
+    global _fallback_mute_state
+
     out = run_applescript('get volume settings')
     if out:
         if 'output muted:false' in out:
             return False
         elif 'output muted:true' in out:
             return True
+        elif 'output muted:missing' in out and _fallback_mute_state is not None:
+            logger.warning('no mute state present in volume settings, falling back on known prior state')
+            return _fallback_mute_state
 
 def switchaudio_mute(device, muting):
     if device:
