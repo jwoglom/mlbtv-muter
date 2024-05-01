@@ -41,7 +41,7 @@ def should_mute(args):
     global muted_at
     if is_muted() is False:
         logger.info('MUTING AUDIO')
-        mute()
+        mute(args.audio_method, args.audio_device)
         muted_at = time.time()
         return 'mute'
     return 'stay_muted'
@@ -50,7 +50,7 @@ def should_unmute(args):
     global unmuted_at
     if is_muted() is True:
         logger.info('UNMUTING AUDIO')
-        unmute()
+        unmute(args.audio_method, args.audio_device)
         unmuted_at = time.time()
         return 'unmute'
     return 'stay_unmuted'
@@ -96,18 +96,23 @@ def run(args):
         else:
             return 'pending_unmute'
 
+DEFAULT_UNMUTE_AFTER = 3
+DEFAULT_APP_NAME = 'Google Chrome'
+DEFAULT_TITLE_KEYWORD = "MLB.TV Web Player"
 if __name__ == '__main__':
     import argparse
 
-    p = argparse.ArgumentParser()
-    p.add_argument('--interval', type=int, default=1)
-    p.add_argument('--unmute-after', type=int, default=None)
-    p.add_argument('--once', action='store_true')
-    p.add_argument('--ensure-front', action='store_true')
-    p.add_argument('--skip-not-front', action='store_true')
-    p.add_argument('--app-name', default='Google Chrome')
-    p.add_argument('--title-keyword', default='MLB.TV')
-    p.add_argument('--debug', '-d', action='store_true')
+    p = argparse.ArgumentParser(description='Automatically mute the system audio when commercials are playing on MLB.TV')
+    p.add_argument('--interval', type=int, default=1, help='the interval in seconds in which the window status is checked')
+    p.add_argument('--unmute-after', type=int, default=None, help='the interval in seconds in which the system audio should be unmuted once detected that a commercial is no longer playing')
+    p.add_argument('--once', action='store_true', help='when set, runs once instead of in a loop')
+    p.add_argument('--ensure-front', action='store_true', help='when set, forces the MLB.TV window to the foreground')
+    p.add_argument('--skip-not-front', action='store_true', help='when set, ignores checking when the MLB.TV window is not in the foreground')
+    p.add_argument('--app-name', default=DEFAULT_APP_NAME, help='the MacOS application name which contains the MLB.TV window. default: "%s"' % DEFAULT_APP_NAME)
+    p.add_argument('--title-keyword', default=DEFAULT_TITLE_KEYWORD, help='a substring of the MacOS window name to check the status of. default: "%s"' % DEFAULT_TITLE_KEYWORD)
+    p.add_argument('--audio-method', default=None, help='advanced: overrides the method of muting the audio. one of "applescript" or "switchaudio"')
+    p.add_argument('--audio-device', default=None, help='advanced: custom audio device to control instead of the default system speaker device when using switchaudio mode')
+    p.add_argument('--debug', '-d', action='store_true', help='advanced: enable debug logging')
     args = p.parse_args()
 
     if args.debug:
@@ -121,7 +126,7 @@ if __name__ == '__main__':
         print(run(args))
     elif args.interval:
         if args.unmute_after is None:
-            args.unmute_after = 5
+            args.unmute_after = DEFAULT_UNMUTE_AFTER
 
         while True:
             t = time.time()
