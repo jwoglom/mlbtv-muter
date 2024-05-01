@@ -47,6 +47,7 @@ def switchaudio_mute(device, muting):
 # https://github.com/deweller/switchaudio-osx
 def run_switchaudio(*params):
     result = subprocess.run(['SwitchAudioSource', *params], capture_output=True, text=True)
+    logger.debug(f'SwitchAudioSource %s: %s', ' '.join(params), result.returncode)
     if result.returncode == 0 and result.stdout:
         return result.stdout.strip()
     elif result.stderr:
