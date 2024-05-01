@@ -103,8 +103,8 @@ if __name__ == '__main__':
     import argparse
 
     p = argparse.ArgumentParser(description='Automatically mute the system audio when commercials are playing on MLB.TV')
-    p.add_argument('--interval', type=int, default=1, help='the interval in seconds in which the window status is checked')
-    p.add_argument('--unmute-after', type=int, default=None, help='the interval in seconds in which the system audio should be unmuted once detected that a commercial is no longer playing')
+    p.add_argument('--interval', type=float, default=1, help='the interval in seconds in which the window status is checked')
+    p.add_argument('--unmute-after', type=float, default=None, help='the interval in seconds in which the system audio should be unmuted once detected that a commercial is no longer playing')
     p.add_argument('--once', action='store_true', help='when set, runs once instead of in a loop')
     p.add_argument('--ensure-front', action='store_true', help='when set, forces the MLB.TV window to the foreground')
     p.add_argument('--skip-not-front', action='store_true', help='when set, ignores checking when the MLB.TV window is not in the foreground')
