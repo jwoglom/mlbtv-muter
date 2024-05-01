@@ -10,8 +10,5 @@ ocrmac = "*"
 
 [dev-packages]
 
-[requires]
-python_version = "3.12"
-
 [scripts]
 mlbtvmuter = "python3 mlbtvmuter.py"
