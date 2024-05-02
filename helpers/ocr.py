@@ -1,16 +1,39 @@
 import logging
-from ocrmac import ocrmac
 from difflib import SequenceMatcher
+
+from .windows import is_windows
 
 logger = logging.getLogger(__name__)
 
-def ocr(path):
+def ocr_osx(path):
     try:
+        from ocrmac import ocrmac
         return ocrmac.OCR(path, language_preference=['en-US'], recognition_level='fast').recognize()
     except AttributeError:
         # catalina doesn't support language_preference ('VNRecognizeTextRequest' object has no attribute' supportedRecognitionLanguagesAndReturnError_')
         return ocrmac.OCR(path, recognition_level='fast').recognize()
 
+def ocr_windows(path):
+    import pytesseract
+    raw = pytesseract.image_to_string(path)
+    logger.info(f'raw tesseract OCR: {raw=}')
+
+    return sequenceize(raw)
+
+def sequenceize(raw, ns=None):
+    words = (raw or '').split()
+    seqs = []
+    if ns is None:
+        ns = [2, 3, 4]
+    for n in ns:
+        if len(words) <= n:
+            seqs.append((' '.join(words),))
+        else:
+            for i in range(n,1+len(words)):
+                seq = words[i-n:i]
+                seqs.append((' '.join(seq),))
+    return seqs
+        
 
 def similar(a, b, thresh):
     if abs(len(b)-len(a)) > 10:
@@ -21,7 +44,10 @@ def similar(a, b, thresh):
     return False
 
 def is_commercial(path):
-    ret = ocr(path)
+    if is_windows():
+        ret = ocr_windows(path)
+    else:
+        ret = ocr_osx(path)
     logger.debug(f'ocr: {ret}')
     return is_commercial_text(ret)
 

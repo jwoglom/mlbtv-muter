@@ -3,6 +3,7 @@ import logging
 import time
 
 from .applescript import run_applescript
+from .windows import run_nircmd
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,8 @@ def mute(method=None, device=None):
 
     if method == 'applescript' or method is None:
         return run_applescript('set volume with output muted')
+    elif method == 'windows':
+        return run_nircmd('mutesysvolume', '1')
     elif method == 'switchaudio':
         return switchaudio_mute(device, 'mute')
 
@@ -23,21 +26,26 @@ def unmute(method=None, device=None):
 
     if method == 'applescript' or method is None:
         return run_applescript('set volume without output muted')
+    elif method == 'windows':
+        return run_nircmd('mutesysvolume', '0')
     elif method == 'switchaudio':
         return switchaudio_mute(device, 'unmute')
 
 def is_muted(method=None):
     global _fallback_mute_state
 
-    out = run_applescript('get volume settings')
-    if out:
-        if 'output muted:false' in out:
-            return False
-        elif 'output muted:true' in out:
-            return True
-        elif 'output muted:missing' in out and _fallback_mute_state is not None:
-            logger.debug('no mute state present in volume settings, falling back on known prior state')
-            return _fallback_mute_state
+    if method == 'applescript' or method is None:
+        out = run_applescript('get volume settings')
+        if out:
+            if 'output muted:false' in out:
+                return False
+            elif 'output muted:true' in out:
+                return True
+            elif 'output muted:missing' in out and _fallback_mute_state is not None:
+                logger.debug('no mute state present in volume settings, falling back on known prior state')
+                return _fallback_mute_state
+    elif method == 'windows':
+        return _fallback_mute_state
 
 def switchaudio_mute(device, muting):
     if device:

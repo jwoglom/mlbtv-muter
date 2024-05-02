@@ -4,6 +4,7 @@ import tempfile
 import logging
 
 from .bounds import get_window_bounds, bring_to_front
+from .windows import is_windows
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,9 @@ def boundingbox(bbox):
     return PIL.ImageGrab.grab(bbox=bbox)
 
 def window(app_name, title_keyword, ensure_front=True):
+    if is_windows(): # window-specific grabbing not supported
+        return fullscreen()
+
     if ensure_front:
         if not bring_to_front(app_name, title_keyword):
             return

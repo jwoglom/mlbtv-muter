@@ -1,12 +1,10 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1a349784eb221ed18c7cb00c4ae76317d83ab0fb86af8636b8d998822dc064c9"
+            "sha256": "b9cea0437fa74e439f0f023359e750c07310a8284d73943381d5a65f7ba4365f"
         },
         "pipfile-spec": 6,
-        "requires": {
-            "python_version": "3.12"
-        },
+        "requires": {},
         "sources": [
             {
                 "name": "pypi",
@@ -29,9 +27,16 @@
                 "sha256:1b2b996e2bd65813d76e18e82660629c9a39072ad873a12fc656408d8ad50c2b",
                 "sha256:5f15e2d2a2782827fc4702f4ed659a7a37a7d49d401b211b3c508ec32430798e"
             ],
-            "index": "pypi",
-            "markers": "python_version >= '3.6'",
+            "markers": "python_version >= '3.6' and sys_platform == 'darwin'",
             "version": "==0.1.6"
+        },
+        "packaging": {
+            "hashes": [
+                "sha256:2ddfb553fdf02fb784c234c7ba6ccc288296ceabec964ad2eae3777778130bc5",
+                "sha256:eb82c5e3e56209074766e6885bb04b8c38a0c015d0a30036ebe7ece34c9989e9"
+            ],
+            "markers": "python_version >= '3.7' and sys_platform == 'win32'",
+            "version": "==24.0"
         },
         "pillow": {
             "hashes": [
@@ -126,7 +131,7 @@
                 "sha256:eb1ab700a44bcc4ceb125091dfaae0b998b767b49990df5fdc83eb58158d8e3f",
                 "sha256:f2115971463073426ab926416e17e5c16de5b90d1a1f2a2d8724637eb1c21308"
             ],
-            "markers": "python_version >= '3.8'",
+            "markers": "python_version >= '3.8' and sys_platform == 'darwin'",
             "version": "==10.2"
         },
         "pyobjc-framework-cocoa": {
@@ -180,6 +185,14 @@
                 "sha256:f65155f6df9b929b67caffbd57c0947c5ae5449d3b580d178074bffb47a09b78"
             ],
             "version": "==0.2.0"
+        },
+        "pytesseract": {
+            "hashes": [
+                "sha256:8f22cc98f765bf13517ead0c70effedb46c153540d25783e04014f28b55a5fc6",
+                "sha256:f1c3a8b0f07fd01a1085d451f5b8315be6eec1d5577a6796d46dc7a62bd4120f"
+            ],
+            "markers": "python_version >= '3.7' and sys_platform == 'win32'",
+            "version": "==0.3.10"
         }
     },
     "develop": {}
