@@ -1,11 +1,12 @@
-# macos-mlbtv-muter
+# mlbtv-muter
 
 Python script which periodically checks for an active MLB.TV window, takes a screenshot of it, and OCR's to identify whether a commercial break is in progress. When a break is in progress, it mutes the system audio, and automatically unmutes after enough time has passed of the commercial break text no longer appearing in the screenshot.
 
 ## Setup
+### MacOS
 ```bash
-git clone https://github.com/jwoglom/macos-mlbtv-muter
-cd macos-mlbtv-muter
+git clone https://github.com/jwoglom/mlbtv-muter
+cd mlbtv-muter
 pipenv install
 pipenv run mlbtvmuter
 ```
