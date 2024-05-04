@@ -6,6 +6,7 @@ from helpers.screenshot import window, save_to_temp
 from helpers.bounds import is_front
 from helpers.ocr import is_commercial
 from helpers.audio import mute, unmute, is_muted
+from helpers.windows import is_windows
 
 logging.basicConfig(
     level=logging.INFO,
@@ -102,6 +103,10 @@ DEFAULT_TITLE_KEYWORD = "MLB.TV Web Player"
 if __name__ == '__main__':
     import argparse
 
+    default_audio_method = 'applescript'
+    if is_windows():
+        default_audio_method = 'windows'
+
     p = argparse.ArgumentParser(description='Automatically mute the system audio when commercials are playing on MLB.TV')
     p.add_argument('--interval', type=float, default=1, help='the interval in seconds in which the window status is checked')
     p.add_argument('--unmute-after', type=float, default=None, help='the interval in seconds in which the system audio should be unmuted once detected that a commercial is no longer playing')
@@ -110,7 +115,7 @@ if __name__ == '__main__':
     p.add_argument('--skip-not-front', action='store_true', help='when set, ignores checking when the MLB.TV window is not in the foreground')
     p.add_argument('--app-name', default=DEFAULT_APP_NAME, help='the MacOS application name which contains the MLB.TV window. default: "%s"' % DEFAULT_APP_NAME)
     p.add_argument('--title-keyword', default=DEFAULT_TITLE_KEYWORD, help='a substring of the MacOS window name to check the status of. default: "%s"' % DEFAULT_TITLE_KEYWORD)
-    p.add_argument('--audio-method', default=None, help='advanced: overrides the method of muting the audio. one of "applescript" or "switchaudio"')
+    p.add_argument('--audio-method', default=None, help='advanced: overrides the method of muting the audio. one of "applescript", "switchaudio", or "windows". default: "%s"' % default_audio_method)
     p.add_argument('--audio-device', default=None, help='advanced: custom audio device to control instead of the default system speaker device when using switchaudio mode')
     p.add_argument('--debug', '-d', action='store_true', help='advanced: enable debug logging')
     args = p.parse_args()
@@ -119,6 +124,9 @@ if __name__ == '__main__':
         loggers = [logging.getLogger(name) for name in logging.root.manager.loggerDict if not 'pil' in name.lower()]
         for logger in loggers:
             logger.setLevel(logging.DEBUG)
+
+    if args.audio_method is None:
+        args.audio_method = default_audio_method
 
     if args.once:
         if args.unmute_after is None:

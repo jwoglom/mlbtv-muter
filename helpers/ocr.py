@@ -15,6 +15,8 @@ def ocr_osx(path):
 
 def ocr_windows(path):
     import pytesseract
+    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
     raw = pytesseract.image_to_string(path)
     logger.info(f'raw tesseract OCR: {raw=}')
 

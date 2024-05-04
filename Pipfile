@@ -5,8 +5,8 @@ name = "pypi"
 
 [packages]
 pillow = "*"
-ocrmac = {version = "*", sys_platform = "== 'darwin'"}
-pytesseract = {version = "*", sys_platform = "== 'win32'"}
+ocrmac = {sys_platform = "== 'darwin'"}
+pytesseract = {sys_platform = "== 'win32'"}
 
 [dev-packages]
 
