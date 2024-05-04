@@ -14,10 +14,11 @@ def ocr_osx(path):
         return ocrmac.OCR(path, recognition_level='fast').recognize()
 
 def ocr_windows(path):
-    import pytesseract
-    pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+    import tesserocr
+    api = tesserocr.PyTessBaseAPI()
+    api.SetImage(path)
+    raw = api.GetUTF8Text()
 
-    raw = pytesseract.image_to_string(path)
     logger.info(f'raw tesseract OCR: {raw=}')
 
     return sequenceize(raw)

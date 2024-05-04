@@ -10,6 +10,9 @@ cd mlbtv-muter
 pipenv install
 pipenv run mlbtvmuter
 ```
+### Windows
+* Install Python3.12 and Git
+* Download and run [tesserocr Windows .whl](https://github.com/simonflueckiger/tesserocr-windows_build/releases)
 
 ## Options
 ```bash
