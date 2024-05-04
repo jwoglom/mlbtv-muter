@@ -5,7 +5,6 @@ import logging
 from helpers.screenshot import window, save_to_temp
 from helpers.bounds import is_front
 from helpers.ocr import is_commercial
-from helpers.resize import resize_image
 from helpers.audio import mute, unmute, is_muted
 from helpers.windows import is_windows
 
