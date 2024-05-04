@@ -9,30 +9,38 @@ logger = logging.getLogger(__name__)
 
 _fallback_mute_state = None
 
-def mute(method=None, device=None):
+def mute(args):
     global _fallback_mute_state
     _fallback_mute_state = True
+
+    method = args.audio_method
+    device = args.audio_device
 
     if method == 'applescript' or method is None:
         return run_applescript('set volume with output muted')
     elif method == 'windows':
-        return run_svcl('/Mute')
+        return run_svcl('/Mute', args.app_name)
     elif method == 'switchaudio':
         return switchaudio_mute(device, 'mute')
 
-def unmute(method=None, device=None):
+def unmute(args):
     global _fallback_mute_state
     _fallback_mute_state = False
+
+    method = args.audio_method
+    device = args.audio_device
 
     if method == 'applescript' or method is None:
         return run_applescript('set volume without output muted')
     elif method == 'windows':
-        return run_svcl('/Unmute')
+        return run_svcl('/Unmute', args.app_name)
     elif method == 'switchaudio':
         return switchaudio_mute(device, 'unmute')
 
-def is_muted(method=None):
+def is_muted(args):
     global _fallback_mute_state
+
+    method = args.audio_method
 
     if method == 'applescript' or method is None:
         out = run_applescript('get volume settings')
@@ -45,6 +53,12 @@ def is_muted(method=None):
                 logger.debug('no mute state present in volume settings, falling back on known prior state')
                 return _fallback_mute_state
     elif method == 'windows':
+        out = run_svcl('/GetMute', args.app_name, '/Stdout')
+        if out:
+            out = out.strip()
+            return out == 1
+        
+        logger.debug('no mute state present in svcl volume output, falling back on known prior state')
         return _fallback_mute_state
 
 def switchaudio_mute(device, muting):

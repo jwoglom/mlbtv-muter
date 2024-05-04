@@ -48,18 +48,18 @@ unmuted_at = None
 
 def should_mute(args):
     global muted_at
-    if is_muted(args.audio_method) in (False, None):
+    if is_muted(args) in (False, None):
         logger.info('MUTING AUDIO')
-        mute(args.audio_method, args.audio_device)
+        mute(args)
         muted_at = time.time()
         return 'mute'
     return 'stay_muted'
 
 def should_unmute(args):
     global unmuted_at
-    if is_muted(args.audio_method) in (True, None):
+    if is_muted(args) in (True, None):
         logger.info('UNMUTING AUDIO')
-        unmute(args.audio_method, args.audio_device)
+        unmute(args)
         unmuted_at = time.time()
         return 'unmute'
     return 'stay_unmuted'
@@ -95,7 +95,7 @@ def run(args):
         seconds_waiting_unmute = 0
         return should_unmute(args)
     elif a == 'maybe_unmute':
-        if is_muted(args.audio_method) == False:
+        if is_muted(args) == False:
             return 'stay_unmuted'
 
         seconds_waiting_unmute += duration
