@@ -19,7 +19,7 @@ def mute(args):
     if method == 'applescript' or method is None:
         return run_applescript('set volume with output muted')
     elif method == 'windows':
-        return run_svcl('/Mute', args.app_name)
+        return run_svcl('/Mute', device)
     elif method == 'switchaudio':
         return switchaudio_mute(device, 'mute')
 
