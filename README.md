@@ -12,7 +12,12 @@ pipenv run mlbtvmuter
 ```
 ### Windows
 * Install Python3.12 and Git
-* Download and run [tesserocr Windows .whl](https://github.com/simonflueckiger/tesserocr-windows_build/releases)
+* Download [tesserocr Windows .whl](https://github.com/simonflueckiger/tesserocr-windows_build/releases)
+```
+python -m pip install tesserocr*.whl
+python -m pip install Pillow
+python mlbtvmuter.py --audio-device=Speakers
+```
 
 ## Options
 ```bash
