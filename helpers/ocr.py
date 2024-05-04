@@ -15,7 +15,8 @@ def ocr_osx(path):
 
 def ocr_windows(path):
     import tesserocr
-    api = tesserocr.PyTessBaseAPI()
+    tessdata_path = r'C:\Program Files\Tesseract-OCR\tessdata'
+    api = tesserocr.PyTessBaseAPI(path=tessdata_path)
     api.SetImage(path)
     raw = api.GetUTF8Text()
 
