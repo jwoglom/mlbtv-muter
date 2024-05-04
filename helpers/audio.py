@@ -3,7 +3,7 @@ import logging
 import time
 
 from .applescript import run_applescript
-from .windows import run_nircmd
+from .windows import run_svcl
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ def mute(method=None, device=None):
     if method == 'applescript' or method is None:
         return run_applescript('set volume with output muted')
     elif method == 'windows':
-        return run_nircmd('mutesysvolume', '1')
+        return run_svcl('/Mute')
     elif method == 'switchaudio':
         return switchaudio_mute(device, 'mute')
 
@@ -27,7 +27,7 @@ def unmute(method=None, device=None):
     if method == 'applescript' or method is None:
         return run_applescript('set volume without output muted')
     elif method == 'windows':
-        return run_nircmd('mutesysvolume', '0')
+        return run_svcl('/Unmute')
     elif method == 'switchaudio':
         return switchaudio_mute(device, 'unmute')
 
