@@ -33,11 +33,14 @@ def window(app_name, title_keyword, ensure_front=True):
     except Exception as e:
         logger.error(f"fullscreen capture: {e=}")
 
-def save_to_temp(img):
+def save_to_temp(img, format='PNG', fast=False):
     if not img:
         return
-    with tempfile.NamedTemporaryFile(suffix='.png', delete=False) as t:
-        img.save(t, 'PNG')
+    with tempfile.NamedTemporaryFile(suffix='.%s' % format.lower(), delete=False) as t:
+        if fast:
+            w, h = img.size
+            img = img.resize(w / 2, h / 2)
+        img.save(t, format)
         return t.name
 
 if __name__ == '__main__':

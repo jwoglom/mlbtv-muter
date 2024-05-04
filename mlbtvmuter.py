@@ -5,6 +5,7 @@ import logging
 from helpers.screenshot import window, save_to_temp
 from helpers.bounds import is_front
 from helpers.ocr import is_commercial
+from helpers.resize import resize_image
 from helpers.audio import mute, unmute, is_muted
 from helpers.windows import is_windows
 
@@ -28,7 +29,7 @@ def detect(args):
         else:
             logger.info("window is at front")
 
-    tmpfile = save_to_temp(w)
+    tmpfile = save_to_temp(w, format='JPEG' if args.jpeg else 'PNG', fast=args.fast)
     logger.debug(f'{tmpfile=}')
     commercial = is_commercial(tmpfile)
     logger.info(f'{commercial=}')
@@ -113,6 +114,8 @@ if __name__ == '__main__':
     p.add_argument('--once', action='store_true', help='when set, runs once instead of in a loop')
     p.add_argument('--ensure-front', action='store_true', help='when set, forces the MLB.TV window to the foreground')
     p.add_argument('--skip-not-front', action='store_true', help='when set, ignores checking when the MLB.TV window is not in the foreground')
+    p.add_argument('--fast', '-f', action='store_true', help='make image smaller before OCR step')
+    p.add_argument('--jpeg', '-j', action='store_true', help='use JPEG instead of PNG')
     p.add_argument('--app-name', default=DEFAULT_APP_NAME, help='the MacOS application name which contains the MLB.TV window. default: "%s"' % DEFAULT_APP_NAME)
     p.add_argument('--title-keyword', default=DEFAULT_TITLE_KEYWORD, help='a substring of the MacOS window name to check the status of. default: "%s"' % DEFAULT_TITLE_KEYWORD)
     p.add_argument('--audio-method', default=None, help='advanced: overrides the method of muting the audio. one of "applescript", "switchaudio", or "windows". default: "%s"' % default_audio_method)
