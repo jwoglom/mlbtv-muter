@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b9cea0437fa74e439f0f023359e750c07310a8284d73943381d5a65f7ba4365f"
+            "sha256": "92eb7aca7b2d0dac0c8534ed15a887e0125769d7824a533bb3f2d2055c491131"
         },
         "pipfile-spec": 6,
         "requires": {},
@@ -114,13 +114,6 @@
             "markers": "python_version >= '3.8'",
             "version": "==10.3.0"
         },
-        "pygetwindow": {
-            "hashes": [
-                "sha256:17894355e7d2b305cd832d717708384017c1698a90ce24f6f7fbf0242dd0a688"
-            ],
-            "index": "pypi",
-            "version": "==0.0.9"
-        },
         "pyobjc-core": {
             "hashes": [
                 "sha256:0153206e15d0e0d7abd53ee8a7fbaf5606602a032e177a028fc8589516a8771c",
@@ -179,12 +172,6 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==10.2"
-        },
-        "pyrect": {
-            "hashes": [
-                "sha256:f65155f6df9b929b67caffbd57c0947c5ae5449d3b580d178074bffb47a09b78"
-            ],
-            "version": "==0.2.0"
         },
         "pytesseract": {
             "hashes": [

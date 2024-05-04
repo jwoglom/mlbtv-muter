@@ -5,7 +5,6 @@ name = "pypi"
 
 [packages]
 pillow = "*"
-pygetwindow = "*"
 ocrmac = {version = "*", sys_platform = "== 'darwin'"}
 pytesseract = {version = "*", sys_platform = "== 'win32'"}
 
