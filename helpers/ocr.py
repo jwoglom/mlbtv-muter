@@ -55,6 +55,7 @@ def is_commercial(text):
 def is_commercial_text(ret):
     texts = [
         'commercial break in progress',
+        'commercial break in',
         'commercial break',
         'break in progress'
     ]
