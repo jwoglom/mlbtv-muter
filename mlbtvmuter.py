@@ -2,9 +2,9 @@
 import time
 import logging
 
-from helpers.screenshot import window, save_to_temp
+from helpers.screenshot import window, save_to_temp, resize_image
 from helpers.bounds import is_front
-from helpers.ocr import ocr_windows, ocr_osx, resize_image, is_commercial
+from helpers.ocr import ocr_windows, ocr_osx, is_commercial
 from helpers.audio import mute, unmute, is_muted
 from helpers.windows import is_windows
 
