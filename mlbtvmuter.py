@@ -4,7 +4,7 @@ import logging
 
 from helpers.screenshot import window, save_to_temp
 from helpers.bounds import is_front
-from helpers.ocr import is_commercial
+from helpers.ocr import ocr_windows, ocr_osx, resize_image, is_commercial
 from helpers.audio import mute, unmute, is_muted
 from helpers.windows import is_windows
 
@@ -16,8 +16,8 @@ logger = logging.getLogger(__name__)
 
 
 def detect(args):
-    w = window(args.app_name, args.title_keyword, args.ensure_front)
-    if not w:
+    img = window(args.app_name, args.title_keyword, args.ensure_front)
+    if not img:
         logger.warning("could not find window")
         return None
     
@@ -28,9 +28,17 @@ def detect(args):
         else:
             logger.info("window is at front")
 
-    tmpfile = save_to_temp(w, format='JPEG' if args.jpeg else 'PNG', fast=args.fast)
-    logger.debug(f'{tmpfile=}')
-    commercial = is_commercial(tmpfile)
+    if is_windows():
+        if args.fast:
+            img = resize_image(img)
+        text = ocr_windows(img)
+    else:
+        tmpfile = save_to_temp(img, format='JPEG' if args.jpeg else 'PNG', fast=args.fast)
+        logger.debug(f'{tmpfile=}')
+        text = ocr_osx(tmpfile)
+
+    logger.debug(f'ocr: {text}')
+    commercial = is_commercial(text)
     logger.info(f'{commercial=}')
 
     return commercial

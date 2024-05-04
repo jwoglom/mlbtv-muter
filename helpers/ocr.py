@@ -13,13 +13,13 @@ def ocr_osx(path):
         # catalina doesn't support language_preference ('VNRecognizeTextRequest' object has no attribute' supportedRecognitionLanguagesAndReturnError_')
         return ocrmac.OCR(path, recognition_level='fast').recognize()
 
-def ocr_windows(path):
+def ocr_windows(img):
     import tesserocr
 
     tessdata_path = r'C:\Program Files\Tesseract-OCR\tessdata'
     api = tesserocr.PyTessBaseAPI(path=tessdata_path)
 
-    api.SetImageFile(path)
+    api.SetImage(img)
     raw = api.GetUTF8Text()
 
     logger.info(f'raw tesseract OCR: {raw=}')
@@ -49,13 +49,8 @@ def similar(a, b, thresh):
         return True
     return False
 
-def is_commercial(path):
-    if is_windows():
-        ret = ocr_windows(path)
-    else:
-        ret = ocr_osx(path)
-    logger.debug(f'ocr: {ret}')
-    return is_commercial_text(ret)
+def is_commercial(text):
+    return is_commercial_text(text)
 
 def is_commercial_text(ret):
     texts = [
