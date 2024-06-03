@@ -9,15 +9,15 @@ from .windows import is_windows
 
 logger = logging.getLogger(__name__)
 
-def fullscreen():
-    return PIL.ImageGrab.grab()
+def fullscreen(**kwargs):
+    return PIL.ImageGrab.grab(**kwargs)
 
 def boundingbox(bbox):
     return PIL.ImageGrab.grab(bbox=bbox)
 
 def window(app_name, title_keyword, ensure_front=True):
     if is_windows(): # window-specific grabbing not supported
-        return fullscreen()
+        return fullscreen(bbox=None, include_layered_windows=False, all_screens=True)
 
     if ensure_front:
         if not bring_to_front(app_name, title_keyword):
