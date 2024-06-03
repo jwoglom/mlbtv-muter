@@ -1,4 +1,5 @@
 import PIL
+import PIL.Image
 import PIL.ImageGrab
 import tempfile
 import logging
@@ -35,7 +36,7 @@ def window(app_name, title_keyword, ensure_front=True):
 
 def resize_image(img):
     w, h = img.size
-    return img.resize(w / 2, h / 2)
+    return img.resize((int(w / 2), int(h / 2))).convert('RGB')
 
 def save_to_temp(img, format='PNG', fast=False):
     if not img:
