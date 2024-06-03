@@ -12,12 +12,17 @@ logger = logging.getLogger(__name__)
 def fullscreen(**kwargs):
     return PIL.ImageGrab.grab(**kwargs)
 
+def fullscreen_all_monitors():
+    return fullscreen(bbox=None, include_layered_windows=False, all_screens=True)
+
 def boundingbox(bbox):
     return PIL.ImageGrab.grab(bbox=bbox)
 
-def window(app_name, title_keyword, ensure_front=True):
+def window(app_name, title_keyword, ensure_front=True, all_monitors=False):
     if is_windows(): # window-specific grabbing not supported
-        return fullscreen(bbox=None, include_layered_windows=False, all_screens=True)
+        if all_monitors:
+            return fullscreen_all_monitors()
+        return fullscreen()
 
     if ensure_front:
         if not bring_to_front(app_name, title_keyword):
@@ -30,6 +35,8 @@ def window(app_name, title_keyword, ensure_front=True):
         except Exception as e:
             logger.error(f"boundingbox capture: {e=}")
     try:
+        if all_monitors:
+            return fullscreen_all_monitors()
         return fullscreen()
     except Exception as e:
         logger.error(f"fullscreen capture: {e=}")

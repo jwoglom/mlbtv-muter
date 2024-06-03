@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 def detect(args):
-    img = window(args.app_name, args.title_keyword, args.ensure_front)
+    img = window(args.app_name, args.title_keyword, args.ensure_front, args.all_monitors)
     if not img:
         logger.warning("could not find window")
         return None
@@ -121,6 +121,7 @@ if __name__ == '__main__':
     p.add_argument('--once', action='store_true', help='when set, runs once instead of in a loop')
     p.add_argument('--ensure-front', action='store_true', help='when set, forces the MLB.TV window to the foreground')
     p.add_argument('--skip-not-front', action='store_true', help='when set, ignores checking when the MLB.TV window is not in the foreground')
+    p.add_argument('--all-monitors', action='store_true', help='when set, grabs the entire screen including all monitors on windows')
     p.add_argument('--fast', '-f', action='store_true', help='make image smaller before OCR step')
     p.add_argument('--jpeg', '-j', action='store_true', help='use JPEG instead of PNG')
     p.add_argument('--app-name', default=DEFAULT_APP_NAME, help='the MacOS application name which contains the MLB.TV window. default: "%s"' % DEFAULT_APP_NAME)
