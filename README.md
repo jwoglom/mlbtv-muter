@@ -11,7 +11,9 @@ pipenv install
 pipenv run mlbtvmuter
 ```
 ### Windows
-* Install Python3.12 and Git
+* [Install Python3.12](https://www.python.org/downloads/windows/)
+* [Install Git](https://www.git-scm.com/download/win)
+* [Install Tesserect-OCR](https://github.com/UB-Mannheim/tesseract/wiki)
 * Download [tesserocr Windows .whl](https://github.com/simonflueckiger/tesserocr-windows_build/releases)
 ```
 python -m pip install tesserocr*.whl
