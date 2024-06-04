@@ -76,9 +76,10 @@ def next_action(args):
     return d
 
 seconds_waiting_unmute = 0
+loops_waiting_unmute = 0
 last_action = None
 def run(args):
-    global seconds_waiting_unmute, last_action
+    global seconds_waiting_unmute, loops_waiting_unmute, last_action
 
     t = time.time()
     if last_action:
@@ -90,16 +91,19 @@ def run(args):
 
     if a == 'mute':
         seconds_waiting_unmute = 0
+        loops_waiting_unmute = 0
         return should_mute(args)
     elif a == 'unmute':
         seconds_waiting_unmute = 0
+        loops_waiting_unmute = 0
         return should_unmute(args)
     elif a == 'maybe_unmute':
         if is_muted(args) == False:
             return 'stay_unmuted'
 
         seconds_waiting_unmute += duration
-        if seconds_waiting_unmute >= args.unmute_after:
+        loops_waiting_unmute += 1
+        if seconds_waiting_unmute >= args.unmute_after and loops_waiting_unmute >= args.unmute_after_loops:
             should_unmute(args)
             return 'unmute'
         else:
@@ -118,6 +122,7 @@ if __name__ == '__main__':
     p = argparse.ArgumentParser(description='Automatically mute the system audio when commercials are playing on MLB.TV')
     p.add_argument('--interval', type=float, default=1, help='the interval in seconds in which the window status is checked')
     p.add_argument('--unmute-after', type=float, default=None, help='the interval in seconds in which the system audio should be unmuted once detected that a commercial is no longer playing')
+    p.add_argument('--unmute-after-loops', type=int, default=None, help='the interval in loops in which the system audio should be unmuted once detected that a commercial is no longer playing. must be met in addition to --unmute-after seconds if set')
     p.add_argument('--once', action='store_true', help='when set, runs once instead of in a loop')
     p.add_argument('--ensure-front', action='store_true', help='when set, forces the MLB.TV window to the foreground')
     p.add_argument('--skip-not-front', action='store_true', help='when set, ignores checking when the MLB.TV window is not in the foreground')
@@ -144,10 +149,14 @@ if __name__ == '__main__':
     if args.once:
         if args.unmute_after is None:
             args.unmute_after = 0
+        if args.unmute_after_loops is None:
+            args.unmute_after_loops = 0
         print(run(args))
     elif args.interval:
         if args.unmute_after is None:
             args.unmute_after = DEFAULT_UNMUTE_AFTER
+        if args.unmute_after_loops is None:
+            args.unmute_after_loops = 0
 
         while True:
             t = time.time()
