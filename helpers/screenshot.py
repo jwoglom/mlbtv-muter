@@ -15,21 +15,23 @@ def fullscreen(**kwargs):
 def fullscreen_all_monitors():
     return fullscreen(bbox=None, include_layered_windows=False, all_screens=True)
 
-def split_only_monitor(image, half):
+def split_only_monitor(image, half, if_width_gt=None):
     w, h = image.size
 
-    if half == 'left':
-        return image.crop((0, 0, int(w/2), h))
-    elif half == 'right':
-        return image.crop((int(w/2), 0, w, h))
+    if not if_width_gt or w > if_width_gt:
+        if half == 'left':
+            return image.crop((0, 0, int(w/2), h))
+        elif half == 'right':
+            return image.crop((int(w/2), 0, w, h))
+    return image
 
 def boundingbox(bbox):
     return PIL.ImageGrab.grab(bbox=bbox)
 
-def window(app_name, title_keyword, ensure_front=True, all_monitors=False, only_monitor=None):
+def window(app_name, title_keyword, ensure_front=True, all_monitors=False, only_monitor=None, only_monitor_if_width_gt=None):
     def _fullscreen():
         if only_monitor:
-            return split_only_monitor(fullscreen_all_monitors(), only_monitor)
+            return split_only_monitor(fullscreen_all_monitors(), only_monitor, only_monitor_if_width_gt)
         if all_monitors:
             return fullscreen_all_monitors()
         return fullscreen()
