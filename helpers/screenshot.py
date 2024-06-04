@@ -18,7 +18,7 @@ def fullscreen_all_monitors():
 def split_only_monitor(image, half, if_width_gt=None):
     w, h = image.size
 
-    if not if_width_gt or w > if_width_gt:
+    if not if_width_gt or w > float(if_width_gt):
         if half == 'left':
             return image.crop((0, 0, int(w/2), h))
         elif half == 'right':
