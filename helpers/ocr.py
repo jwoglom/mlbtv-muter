@@ -1,4 +1,5 @@
 import logging
+import os
 from difflib import SequenceMatcher
 
 from .windows import is_windows
@@ -17,6 +18,9 @@ def ocr_windows(img):
     import tesserocr
 
     tessdata_path = r'C:\Program Files\Tesseract-OCR\tessdata'
+    if os.getenv('TESSDATA_PATH'):
+        tessdata_path = os.getenv('TESSDATA_PATH')
+
     api = tesserocr.PyTessBaseAPI(path=tessdata_path)
 
     api.SetImage(img)

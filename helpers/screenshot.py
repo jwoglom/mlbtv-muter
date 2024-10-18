@@ -60,12 +60,18 @@ def resize_image(img):
     w, h = img.size
     return img.resize((int(w / 2), int(h / 2))).convert('RGB')
 
-def save_to_temp(img, format='PNG', fast=False):
+def crop_center_image(img):
+    w, h = img.size
+    return img.crop((int(w/4), int(h/4), 3*int(w/4), 3*int(h/4))).convert('RGB')
+
+def save_to_temp(img, format='PNG', fast=False, center=False):
     if not img:
         return
     with tempfile.NamedTemporaryFile(suffix='.%s' % format.lower(), delete=False) as t:
         if fast:
             img = resize_image(img)
+        if center:
+            img = crop_center_image(img)
         img.save(t, format)
         return t.name
 
