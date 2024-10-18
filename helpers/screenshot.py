@@ -58,6 +58,8 @@ def window(app_name, title_keyword, ensure_front=True, all_monitors=False, only_
 
 def resize_image(img):
     w, h = img.size
+    if w <= 1280 and h <= 1024:
+        return img.resize((int(2*w / 3), int(2*h / 3))).convert('RGB')    
     return img.resize((int(w / 2), int(h / 2))).convert('RGB')
 
 def crop_center_image(img):

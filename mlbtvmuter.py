@@ -2,7 +2,7 @@
 import time
 import logging
 
-from helpers.screenshot import window, save_to_temp, resize_image
+from helpers.screenshot import window, save_to_temp, resize_image, crop_center_image
 from helpers.bounds import is_front
 from helpers.ocr import ocr_windows, ocr_osx, is_commercial
 from helpers.audio import mute, unmute, is_muted
@@ -31,6 +31,8 @@ def detect(args):
     if is_windows():
         if args.fast:
             img = resize_image(img)
+        if args.crop_center:
+            img = crop_center_image(img)
         text = ocr_windows(img)
     else:
         tmpfile = save_to_temp(img, format='JPEG' if args.jpeg else 'PNG', fast=args.fast, center=args.crop_center)
