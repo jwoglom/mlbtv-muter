@@ -129,7 +129,7 @@ if __name__ == '__main__':
     p.add_argument('--all-monitors', action='store_true', help='when set, grabs the entire screen including all monitors on windows')
     p.add_argument('--only-monitor', default=None, help='when set, grabs the monitor on the "left" or "right" (naively by halving the entire screen output)')
     p.add_argument('--only-monitor-if-width-gt', default=0, help='when set, only applies --only-monitor if the screen width is greater than this value')
-    p.add_argument('--crop-center', default=None, help='when set, crops the image which is OCRd to only the center')
+    p.add_argument('--crop-center', action='store_true', help='when set, crops the image which is OCRd to only the center')
     p.add_argument('--fast', '-f', action='store_true', help='make image smaller before OCR step')
     p.add_argument('--jpeg', '-j', action='store_true', help='use JPEG instead of PNG')
     p.add_argument('--app-name', default=DEFAULT_APP_NAME, help='the MacOS application name which contains the MLB.TV window. default: "%s"' % DEFAULT_APP_NAME)
